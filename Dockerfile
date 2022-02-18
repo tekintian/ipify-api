@@ -20,7 +20,7 @@ RUN sed -i -e 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apk/
     chmod +x /docker-entrypoint.sh
 
 # ipify-api server run container
-FROM alpine:3.6
+FROM alpine:3.8
 LABEL maintainer="tekintian@gmail.com"
 
 WORKDIR /usr/local/bin
