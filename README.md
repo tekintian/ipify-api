@@ -8,7 +8,7 @@ of the largest and most popular IP address API services on the internet. ipify
 serves over 30 billion requests per month!
 
 
-## build for docker container
+## build for docker images
 
 ~~~sh
 git clone https://github.com/tekintian/ipify-api.git
@@ -17,10 +17,12 @@ cd ipify-api
 #build the ipify-api server
 docker build -f Dockerfile -t tekintian/ipify-api .
 
+# or if has build error, try building with BUILDKIT disabled
+# DOCKER_BUILDKIT=0 docker build -f Dockerfile -t tekintian/ipify-api .
+
 #run the ipify-api server
 docker run --name ipify-api-server -itd -p 3000:3000 tekintian/ipify-api
 ~~~
-
 
 
 ## What does ipify do?
@@ -82,7 +84,7 @@ Once you have Go installed, you'll need to clone this project into your
 computer's GOPATH. For me, this means I'll typically do something like:
 
 ```bash
-$ git clone https://github.com/rdegges/ipify-api.git ~/go/src/github.com/rdegges/ipify-api
+$ git clone https://github.com/rdegges/ipify-api.git ~/go/src/github.com/tekintian/ipify-api
 ```
 
 To build the project, change to the project directory and run:

@@ -4,14 +4,14 @@ FROM golang:alpine3.15 as builder
 WORKDIR /usr/src
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 
-ENV GIT_SSL_NO_VERIFY=true
-
 # ADD ./ /usr/src/ipify-api
 RUN sed -i -e 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apk/repositories; \
     apk update; \
     apk add --no-cache curl ca-certificates wget git ; \
-    git config --global --unset http.proxy ;\
-    git config --global --unset https.proxy ;\
+    #set the global default user and email
+    git config --global user.name "AlpineBuilder"; \
+    git config --global user.email "builder@gmail.com" ; \
+    # clone the ipify-api code
     git clone https://github.com/tekintian/ipify-api.git; \
     cd /usr/src/ipify-api ;\
     go mod init ; \
