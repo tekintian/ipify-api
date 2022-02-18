@@ -8,6 +8,21 @@ of the largest and most popular IP address API services on the internet. ipify
 serves over 30 billion requests per month!
 
 
+## build for docker container
+
+~~~sh
+git clone https://github.com/tekintian/ipify-api.git
+cd ipify-api
+
+#build the ipify-api server
+docker build -f Dockerfile -t tekintian/ipify-api .
+
+#run the ipify-api server
+docker run --name ipify-api-server -itd -p 3000:3000 tekintian/ipify-api
+~~~
+
+
+
 ## What does ipify do?
 
 Have you ever needed to pragmatically get your public IP address? This is quite
