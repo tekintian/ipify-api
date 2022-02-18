@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"github.com/julienschmidt/httprouter"
 	"github.com/rdegges/ipify-api/models"
+	"io/ioutil"
 	"net"
 	"net/http"
 	"strings"
@@ -31,7 +32,16 @@ func GetIP(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	// is the *true* IP of the user.  For more information on this, see the
 	// Wikipedia page: https://en.wikipedia.org/wiki/X-Forwarded-For
 	ip := net.ParseIP(strings.Split(r.Header.Get("X-Forwarded-For"), ",")[0]).String()
-
+	//
+	if ip == "<nil>" {
+		res, _ := http.Get("https://api.ipify.org")
+		ip1, _ := ioutil.ReadAll(res.Body)
+		if ip1 == nil {
+			ip = "0.0.0.0"
+		} else {
+			ip = string(ip1)
+		}
+	}
 	// If the user specifies a 'format' querystring, we'll try to return the
 	// user's IP address in the specified format.
 	if format, ok := r.Form["format"]; ok && len(format) > 0 {

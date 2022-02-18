@@ -3,18 +3,24 @@ FROM golang:alpine3.15 as builder
 
 WORKDIR /usr/src
 COPY docker-entrypoint.sh /docker-entrypoint.sh
+
+ENV GIT_SSL_NO_VERIFY=true
+
 # ADD ./ /usr/src/ipify-api
 RUN sed -i -e 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apk/repositories; \
     apk update; \
     apk add --no-cache curl ca-certificates wget git ; \
+    git config --global --unset http.proxy ;\
+    git config --global --unset https.proxy ;\
     git clone https://github.com/tekintian/ipify-api.git; \
     cd /usr/src/ipify-api ;\
+    go mod init ; \
     go build -v; \
-    chmod +x /usr/src/ipify-api/ipify-api; \
+    chmod +x ipify-api; \
     chmod +x /docker-entrypoint.sh
 
 # ipify-api server run container
-FROM alpine:3.15
+FROM alpine:3.6
 LABEL maintainer="tekintian@gmail.com"
 
 WORKDIR /usr/local/bin
